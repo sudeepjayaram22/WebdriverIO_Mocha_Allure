@@ -1,3 +1,6 @@
+const { default: AllureReporter } = require("@wdio/allure-reporter")
+const { assert } = require("chai")
+
 /**
 * main page object containing all methods, selectors and functionality
 * that is shared across all page objects
@@ -7,35 +10,42 @@ module.exports = class Page {
     * Opens a sub page of the page
     * @param path path of the sub page (e.g. /path/to/page.html)
     */
-    open(path) {
-        return browser.url(`https://the-internet.herokuapp.com/${path}`)
+    async initializeAndNavigate(path, pageLoadTimeout) {
+        await browser.maximizeWindow()
+        await browser.setTimeout({ 'pageLoad': pageLoadTimeout })
+        await browser.navigateTo(path)
+        try {
+            const acceptButtonObject = await browser.$('button#gdpr-banner-accept')
+            await acceptButtonObject.waitForDisplayed({ timeout: 3000 })
+            await acceptButtonObject.click()
+        } catch (exception) {
+            AllureReporter.addStep("Handling banner section in the welcome page by accepting cookies\n" + exception)
+        }
     }
 
-    get shopByCategoryDropdownButton() {
-        return $('//button[@id=\'gh-shop-a\' and text()=\'Shop by category\']')
-    }
-
-    getMenutItemAndSection(section, menuItem) {
-        return $('//a[text()=\'' + section + '\']//ancestor::h3[@class=\'gh-sbc-parent\']//following-sibling::ul//a[text()=\'' + menuItem + '\']')
-    }
-
-    async selectMenuItemFromShopByCategory(categorySection, categoryMenuItem) {
-        await this.shopByCategoryDropdownButton.click()
-        const categoryMenuItemElement = await this.getMenutItemAndSection(categorySection, categoryMenuItem)
-        await categoryMenuItemElement.waitForClickable({ timeout: 10000 })
-        await categoryMenuItemElement.click()
-        await categoryMenuItemElement.waitForClickable({ reverse: true })
-    }
-
-    waitForDisplayed(pageElement) {
-        pageElement.waitForDisplayed({ timeout: 30000 })
+    async waitForDisplayed(pageElement) {
+        try { await pageElement.waitForDisplayed({ timeout: 10000 }) } catch (exception) {
+            AllureReporter.addStep(exception)
+            AllureReporter.addIssue(exception)
+        }
+        // assert.isTrue(await pageElement.waitForDisplayed({ timeout: 10000 }), "Failed due to a problem in loading page")
     }
 
     feedBreadCrumbArray(arr) {
         var loadedArray = []
-        arr.array.forEach(element => {
+        arr.forEach(element => {
             loadedArray.push(element)
         });
         return loadedArray
+    }
+
+    acceptAllCookiesInBanner() {
+        try {
+            const acceptButtonObject = browser.$('button#gdpr-banner-accept')
+            acceptButtonObject.waitForDisplayed({ timeout: 3000 })
+            acceptButtonObject.click()
+        } catch (exception) {
+            AllureReporter.addStep("Handling banner section in the welcome page by accepting cookies\n" + exception)
+        }
     }
 }

@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "wdio": "wdio run ./wdio.conf.js"
+    "test": "npx wdio run ./wdio.conf.js",
+    "wdio": "wdio run ./wdio.conf.js",
+    "report": "allure serve reports/allure-results"
   },
   "keywords": [],
   "author": "",

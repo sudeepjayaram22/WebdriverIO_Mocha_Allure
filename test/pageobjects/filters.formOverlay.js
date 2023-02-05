@@ -19,35 +19,44 @@ class FiltersFormOverlay extends Page {
         return $('//div[@role=\'tabpanel\']//span[text()=\'' + option + '\']//ancestor::span[@class=\'field\']')
     }
 
-    selectLeftPanelTab(tabName) {
-        this.getLeftPanelTab(tabName).click()
-        assert.isTrue(this.getLeftPanelTab(tabName).getAttribute("aria-selected"), "Failed to select " + tabName + " tab in the Left Panel of Filter Overlay")
+    async selectLeftPanelTab(tabName) {
+        await this.getLeftPanelTab(tabName).click()
+        assert.isTrue(await this.getLeftPanelTab(tabName).getAttribute("aria-selected") === 'true', "Failed to select " + tabName + " tab in the Left Panel of Filter Overlay")
     }
 
-    selectRightPanelItems(optionsArray) {
-        optionsArray.array.forEach(option => {
-            this.getRightPanelItem(option).click()
-            try { this.getRightPanelItem(option).getAttribute('checked') } catch (exception) {
-                assert.fail("Failed to check " + option + " option in the ride side panel of Filter ovelay")
+    async selectCheckboxItemsRightPanel(optionsArray) {
+        for (let i = 0; i < optionsArray.length; i++) {
+            await this.getRightPanelItem(optionsArray[i]).click()
+            try { await this.getRightPanelItem(optionsArray[i]).getAttribute('checked') } catch (exception) {
+                await assert.fail("Failed to check " + optionsArray[i] + " option in the ride side panel of Filter ovelay")
             }
-        });
+        }
     }
 
-
+    async enterTextboxInRightPanel(optionsArray) {
+        const priceRange = optionsArray[0].split('-')
+        await $('//div[@class=\'x-textrange\']//input[contains(@aria-label,\'Minimum Value\')]').setValue(priceRange[0].replace("$", ""))
+        await $('//div[@class=\'x-textrange\']//input[contains(@aria-label,\'Maximum Value\')]').setValue(priceRange[1].replace("$", ""))
+    }
 
     getFooterButton(buttonName) {
         return $('//button[@aria-label=\'' + buttonName + '\']')
     }
 
-    filterOptionsAndClickApplyButton(tabAndOptionsListMap) {
-        for (const [tabName, optionsArray] of tabAndOptionsListMap.entries()) {
-            selectLeftPanelTab(tabName)
-            this.selectRightPanelItems(optionsArray)
+    async filterOptionsAndClickApplyButton(tabAndOptionsListMap) {
+        for (const [tabName, optionsArray] of tabAndOptionsListMap) {
+            await this.selectLeftPanelTab(tabName)
+            if (tabName === 'Price') {
+                await this.enterTextboxInRightPanel(optionsArray)
+            } else {
+                await this.selectCheckboxItemsRightPanel(optionsArray)
+            }
         }
-        this.getFooterButton(this.applyButtonName).click()
-        this.getFooterButton(this.applyButtonName).waitForExist({ reverse: true, timeout: 5000 })
+        const applyButton = await this.getFooterButton(this.applyButtonName)
+        await assert.isTrue(await applyButton.isEnabled(), "Apply button is not enabled")
+        await applyButton.click()
+        await applyButton.waitForExist({ reverse: true, timeout: 5000 })
     }
-
 }
 
 module.exports = new FiltersFormOverlay();

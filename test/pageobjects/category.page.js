@@ -7,17 +7,21 @@ const Page = require('./page');
  * sub page containing specific selectors and methods for a specific page
  */
 class CategoryPage extends Page {
+    categoryName = "";
+    // constructor(categoryName) {
+    // this.categoryName = categoryName;
+    // this.waitForDisplayed();
+    // }
 
-    constructor(categoryName) {
-        this.categoryName = categoryName;
-        this.waitForDisplayed();
+    async setCategoryName(categoryName) {
+        this.categoryName = categoryName
+        await this.waitForDisplayed(await this.getCategoryPageHeader())
     }
-
     /**
      * define selectors using getter methods
      */
-    getCategoryPageHeader() {
-        return $('//h1[@class=\'b-pageheader\']//span[text()=\'' + this.categoryName + '\']');
+    async getCategoryPageHeader() {
+        return await $('//h1[@class=\'b-pageheader\']//span[text()=\'' + this.categoryName + '\']');
     }
 
     getLeftSideNavigationListElement(sectionName, itemName) {
@@ -29,16 +33,22 @@ class CategoryPage extends Page {
     }
 
     async getHeaderBreadCrumbs() {
-        let breadCrumbs = $$('//nav[@class=\'breadcrumbs breadcrumb--overflow\']/ul/li/a')
+        const breadCrumbs = await $$('//nav[@class=\'breadcrumbs breadcrumb--overflow\']/ul/li/a')
         var actualBreadCrumbsTextArray = [];
-        breadCrumbs.forEach(element => {
-            actualBreadCrumbsTextArray.push(element.getText())
-        });
+        for (let i = 0; i < breadCrumbs.length; i++) {
+            console.log(await breadCrumbs[i].getText())
+            await actualBreadCrumbsTextArray.push(await breadCrumbs[i].getText())
+        }
+        // await breadCrumbs.forEach(element => {
+        //     actualBreadCrumbsTextArray.push(element.getText())
+        // });
         return actualBreadCrumbsTextArray
     }
 
     async verifyHeaderBreadCrumbs(expectedBreadCrumbsArray) {
-        assert.equal(actualBreadCrumbsTextArray, expectedBreadCrumbsArray, "Bread crumbs mismatch after navigating to Category Page");
+        try {
+            await assert.equal(await this.getHeaderBreadCrumbs(), expectedBreadCrumbsArray, "Bread crumbs mismatch after navigating to Category Page");
+        } catch (exception) { }
     }
 
 

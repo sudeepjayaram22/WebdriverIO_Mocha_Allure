@@ -42,7 +42,7 @@ class MainPage extends Page {
     }
 
     /**
-   * Get Menu Item element from a section in Shop By category flyout.
+   * Used to get Menu Item element from a section in Shop By category flyout.
    * @param categorySection under the Shop By category flyout(e.g. "Electronics")
    * @param categoryMenuItem under the Shop By category flyout(e.g. "Cell Phones, Smart Watches & Accessories")
    * @returns DOM-element found by the given selector
@@ -52,7 +52,7 @@ class MainPage extends Page {
     }
 
     /**
-    * Selects Menu Item element from a section in Shop By category flyout.
+    * Used to select Menu Item element from a section in Shop By category flyout.
     * @param categorySection under the Shop By category flyout(e.g. "Electronics")
     * @param categoryMenuItem under the Shop By category flyout(e.g. "Cell Phones, Smart Watches & Accessories")
     */
@@ -65,7 +65,7 @@ class MainPage extends Page {
     }
 
     /**
-    * Search for an item and select a catergory
+    * Used to search for an item and select a catergory
     * @param searchString to search for a product(e.g. "Macbook")
     * @param categoryOption - optional - to filter the results based on the category(e.g. "Computers/Tablets & Networking")
     */

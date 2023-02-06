@@ -1,5 +1,2 @@
 node_modules
-reports
-allure-results
-test/specs/example.e2e.js
-test/pageobjects/login.page.js
+reports/allure-results

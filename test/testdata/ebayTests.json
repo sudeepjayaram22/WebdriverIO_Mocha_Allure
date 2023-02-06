@@ -1,0 +1,30 @@
+[
+    {
+        "TestCaseID001": {
+            "categorySection": "Electronics",
+            "categoryMenuItem": "Cell Phones, Smart Watches & Accessories",
+            "categoryIntendedItem": "Cell Phones & Smartphones",
+            "breadCumbArray": [
+                "eBay",
+                "Electronics",
+                "Cell Phones & Accessories"
+            ],
+            "filterOption1": {
+                "filterName": "Screen Size",
+                "filterValue": [
+                    "5.0 - 5.4 in"
+                ]
+            },
+            "filterOption2": {
+                "filterName": "Price",
+                "filterValue": [
+                    "$100.00-$500.00"
+                ]
+            }
+        },
+        "TestCaseID002": {
+            "searchProductText": "MacBook",
+            "searchProductCategory": "Computers/Tablets & Networking"
+        }
+    }
+]

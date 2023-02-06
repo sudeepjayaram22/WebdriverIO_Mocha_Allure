@@ -7,13 +7,14 @@ const { assert } = require("chai")
 */
 module.exports = class Page {
     /**
-    * Opens a sub page of the page
-    * @param path path of the sub page (e.g. /path/to/page.html)
+    * Initializes, sets up browser properties and navigates to mentioned url
+    * @param url path of application under test (e.g. https://www.ebay.com)
+    * @param pageLoadTimeout time in milliseconds (e.g. 30000)
     */
-    async initializeAndNavigate(path, pageLoadTimeout) {
+    async initializeAndNavigate(url, pageLoadTimeout) {
         await browser.maximizeWindow()
         await browser.setTimeout({ 'pageLoad': pageLoadTimeout })
-        await browser.navigateTo(path)
+        await browser.navigateTo(url)
         try {
             const acceptButtonObject = await browser.$('button#gdpr-banner-accept')
             await acceptButtonObject.waitForDisplayed({ timeout: 3000 })
@@ -23,29 +24,11 @@ module.exports = class Page {
         }
     }
 
+    /**
+    * Waits for the page element to be displayed
+    * @param pageElement page element to be waited for (e.g. $('#loginButton'))
+    */
     async waitForDisplayed(pageElement) {
-        try { await pageElement.waitForDisplayed({ timeout: 10000 }) } catch (exception) {
-            AllureReporter.addStep(exception)
-            AllureReporter.addIssue(exception)
-        }
-        // assert.isTrue(await pageElement.waitForDisplayed({ timeout: 10000 }), "Failed due to a problem in loading page")
-    }
-
-    feedBreadCrumbArray(arr) {
-        var loadedArray = []
-        arr.forEach(element => {
-            loadedArray.push(element)
-        });
-        return loadedArray
-    }
-
-    acceptAllCookiesInBanner() {
-        try {
-            const acceptButtonObject = browser.$('button#gdpr-banner-accept')
-            acceptButtonObject.waitForDisplayed({ timeout: 3000 })
-            acceptButtonObject.click()
-        } catch (exception) {
-            AllureReporter.addStep("Handling banner section in the welcome page by accepting cookies\n" + exception)
-        }
+        assert.isTrue(await pageElement.waitForDisplayed({ timeout: 10000 }), "Failed due to a problem in loading page")
     }
 }

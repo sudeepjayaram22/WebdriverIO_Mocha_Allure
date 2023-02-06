@@ -5,8 +5,12 @@ Created using Page Object Model (POM) pattern using WebdriverIO, Mocha with Chai
 Includes Allure Reporting for generating clear graphical reports 
 
 ## Findings & Workaround
-Please Note: Location based filter in the filter flyout has an issue from the eBay site. In the past it was resolved and it is occuring again.
-Hence I have skipped the step to apply Location based filter in line #51 of /test/specs/ebayTests.spec.js file 
+* Please Note: Location based filter in the filter flyout has an issue from the eBay site. In the past it was resolved and it is occuring again.
+  Hence I have skipped the step to apply Location based filter in line #51 of /test/specs/ebayTests.spec.js file 
+
+## Assumptions  
+* Assuming the chrome browser version is 109.0.0 and above
+* Instructions on how to alter the framework level paramters can be found by the comments in wdio.conf.js file
 
 ## Getting Started
 * Follow the Prerequisites section in this document

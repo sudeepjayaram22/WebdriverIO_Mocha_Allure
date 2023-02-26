@@ -21,18 +21,18 @@ Includes Allure Reporting for generating clear graphical reports
 
 ### Running the tests
 To run all the tests execute the below command in the terminal,
-* <npm run test>
+* npm run test
 
 To run specific test,
-* <npm run test -- --mochaOpts.grep "TestCaseID001">
+* npm run test -- --mochaOpts.grep "TestCaseID001"
 or
-* <npm run test -- --mochaOpts.grep "sanity">
+* npm run test -- --mochaOpts.grep "sanity"
 
 To Debug a test with breakpoints,
 * open the package.json and click on the Debug icon above "scripts" and select "test"
 
 To open the allure results,
-* <npm run report>
+* npm run report
 
 ## Built With
 * WebdriverIO - To support browser actions

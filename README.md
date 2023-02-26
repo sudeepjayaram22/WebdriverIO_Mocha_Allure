@@ -11,7 +11,7 @@ Includes Allure Reporting for generating clear graphical reports
 ## Getting Started
 * Follow the Prerequisites section in this document
 * Open this project folder in Visual Studio Code
-* Install the dependencies with respect to this project by entering this in the terminal <npm install>
+* Install the dependencies with respect to this project by entering this in the terminal <code>npm install</code>
 
 ### Prerequisites
 * Visual Studio Code editor
@@ -21,18 +21,18 @@ Includes Allure Reporting for generating clear graphical reports
 
 ### Running the tests
 To run all the tests execute the below command in the terminal,
-* npm run test
+* <code>npm run test</code>
 
 To run specific test,
-* npm run test -- --mochaOpts.grep "TestCaseID001"
+* <code>npm run test -- --mochaOpts.grep "TestCaseID001"</code>
 or
-* npm run test -- --mochaOpts.grep "sanity"
+* <code>npm run test -- --mochaOpts.grep "sanity"</code>
 
 To Debug a test with breakpoints,
 * open the package.json and click on the Debug icon above "scripts" and select "test"
 
 To open the allure results,
-* npm run report
+* <code>npm run report</code>
 
 ## Built With
 * WebdriverIO - To support browser actions

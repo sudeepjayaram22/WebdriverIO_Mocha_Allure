@@ -40,9 +40,6 @@ To open the allure results,
 * Chai - Assertion Library
 * Allure - For Detailed reporting
 
-## Versioning
-As per the coding test guidelines this project folder is maintained in local repository using git.
-
 ## Authors
 * Sudeep Jayaram 
 * Contact: sudeep.jayaram22@gmail.com / +91-9901134343 
